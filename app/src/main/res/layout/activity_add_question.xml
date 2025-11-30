@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#1F1D2B"
+    android:paddingTop="16dp"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/tvHeaderTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="QUẢN LÝ CÂU HỎI"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"
+        android:paddingHorizontal="16dp"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/tvQuestionId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="8dp">
+                    <TextView android:text="Chủ Đề" android:textColor="#6C5DD3" android:textStyle="bold" android:layout_marginBottom="4dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <Spinner android:id="@+id/spinnerQuiz" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/bg_input_dark"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
+                    <TextView android:text="Loại Câu" android:textColor="#6C5DD3" android:textStyle="bold" android:layout_marginBottom="4dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <Spinner android:id="@+id/spinnerType" android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/bg_input_dark"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView android:text="Nội dung câu hỏi" android:textColor="#E0E0E0" android:layout_marginBottom="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/edtContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="top|start"
+                android:background="@drawable/bg_input_dark"
+                android:padding="12dp"
+                android:hint="Nhập câu hỏi..."
+                android:textColor="#FFFFFF"
+                android:textColorHint="#666670"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+                <EditText android:id="@+id/edtA" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:background="@drawable/bg_input_dark" android:paddingHorizontal="12dp" android:hint="A (Đúng)" android:textColor="#FFFFFF" android:textColorHint="#9E9EA7" android:layout_marginEnd="6dp"/>
+                <EditText android:id="@+id/edtB" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:background="@drawable/bg_input_dark" android:paddingHorizontal="12dp" android:hint="B (Sai)" android:textColor="#FFFFFF" android:textColorHint="#9E9EA7" android:layout_marginStart="6dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutOptionsCD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <EditText android:id="@+id/edtC" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:background="@drawable/bg_input_dark" android:paddingHorizontal="12dp" android:hint="C" android:textColor="#FFFFFF" android:textColorHint="#9E9EA7" android:layout_marginEnd="6dp"/>
+                <EditText android:id="@+id/edtD" android:layout_width="0dp" android:layout_weight="1" android:layout_height="50dp" android:background="@drawable/bg_input_dark" android:paddingHorizontal="12dp" android:hint="D" android:textColor="#FFFFFF" android:textColorHint="#9E9EA7" android:layout_marginStart="6dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
+                <TextView
+                    android:text="Đáp án đúng"
+                    android:textColor="#00E676"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <EditText
+                    android:id="@+id/edtCorrect"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_input_dark"
+                    android:hint="A/B/C/D"
+                    android:maxLength="1"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="#00E676"
+                    android:textStyle="bold"
+                    android:textColorHint="#9E9EA7"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#252836"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:elevation="8dp">
+
+        <ImageView
+            android:id="@+id/btnCancelEdit"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@android:drawable/ic_menu_revert"
+            android:background="@drawable/bg_input_dark"
+            android:padding="12dp"
+            app:tint="#00D2FC"
+            android:layout_marginEnd="12dp"/>
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="XÓA"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#FF3D71"
+            android:layout_marginEnd="12dp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="LƯU"
+            android:textStyle="bold"
+            android:textColor="#1F1D2B"
+            android:backgroundTint="#00D2FC"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:orientation="vertical"
+        android:background="#1F1D2B">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DANH SÁCH CÂU HỎI HIỆN CÓ"
+            android:textColor="#6C5DD3"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:background="#2F3142"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp"
+            android:clipToPadding="false"/>
+    </LinearLayout>
+
+</LinearLayout>

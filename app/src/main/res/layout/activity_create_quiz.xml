@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1F1D2B"
+    android:padding="24dp"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="30dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_code"
+                android:rotation="180"
+                app:tint="#9E9EA7"
+                android:padding="8dp"
+                android:background="@drawable/bg_input_dark"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TẠO ĐỀ THI MỚI"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tên Môn Học / Chủ Đề"
+            android:textColor="#6C5DD3"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/edtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_input_dark"
+            android:paddingHorizontal="16dp"
+            android:hint="Ví dụ: Lập trình Java nâng cao"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#666670"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mô Tả Chi Tiết"
+            android:textColor="#6C5DD3"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/edtDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="80dp"
+            android:gravity="top"
+            android:background="@drawable/bg_input_dark"
+            android:padding="16dp"
+            android:hint="Nhập mô tả về nội dung bài thi..."
+            android:textColor="#FFFFFF"
+            android:textColorHint="#666670"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Độ Khó"
+            android:textColor="#6C5DD3"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerDiff"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_input_dark"
+            android:padding="4dp"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thời Gian (Phút)"
+                android:textColor="#E0E0E0"/>
+            <TextView
+                android:id="@+id/tvDurationVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 phút"
+                android:textColor="#00D2FC"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="5.0"
+            android:valueTo="60.0"
+            android:stepSize="5.0"
+            android:value="15.0"
+            app:thumbColor="#00D2FC"
+            app:trackColorActive="#00D2FC"
+            app:trackColorInactive="#2F3142"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Số Lượng Câu Hỏi"
+                android:textColor="#E0E0E0"/>
+            <TextView
+                android:id="@+id/tvTotalQVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 câu"
+                android:textColor="#FFB84C"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderTotalQ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:valueFrom="5.0"
+            android:valueTo="50.0"
+            android:stepSize="5.0"
+            android:value="10.0"
+            app:thumbColor="#FFB84C"
+            app:trackColorActive="#FFB84C"
+            app:trackColorInactive="#2F3142"
+            android:layout_marginBottom="30dp"/>
+
+        <Button
+            android:id="@+id/btnCreate"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="XÁC NHẬN TẠO"
+            android:textStyle="bold"
+            android:textColor="#1F1D2B"
+            android:backgroundTint="#00D2FC"
+            app:cornerRadius="12dp"/>
+
+    </LinearLayout>
+</ScrollView>
