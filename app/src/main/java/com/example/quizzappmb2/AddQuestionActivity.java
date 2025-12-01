@@ -166,7 +166,7 @@ public class AddQuestionActivity extends AppCompatActivity {
 
         btnSave.setText("CẬP NHẬT");
         btnDelete.setVisibility(View.VISIBLE);
-        btnCancelEdit.setVisibility(View.VISIBLE); // Hiện nút Hủy
+        btnCancelEdit.setVisibility(View.VISIBLE);
 
         if ("TF".equals(q.getType())) spinnerType.setSelection(1);
         else spinnerType.setSelection(0);

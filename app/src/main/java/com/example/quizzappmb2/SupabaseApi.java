@@ -93,7 +93,8 @@ public interface SupabaseApi {
             @Header("apikey") String apiKey,
             @Query("user_id") String userIdFilter // eq.USER_ID
     );
-    @GET("profiles?select=*")
+    // Lấy danh sách tất cả user, TRỪ NHỮNG NGƯỜI CÓ ROLE LÀ 'admin'
+    @GET("profiles?select=*,full_name,is_banned,avatar_url&role=neq.admin")
     Call<List<Profile>> getAllUsers(@Header("apikey") String apiKey);
 
     // 2. Xóa User (Khỏi bảng profiles)
@@ -110,7 +111,6 @@ public interface SupabaseApi {
             @Body Quiz quiz
     );
 
-    // Sửa câu hỏi
     @PATCH("questions")
     Call<Void> updateQuestion(
             @Header("apikey") String apiKey,
@@ -119,7 +119,6 @@ public interface SupabaseApi {
             @Body Question question
     );
 
-    // Xóa câu hỏi
     @DELETE("questions")
     Call<Void> deleteQuestion(
             @Header("apikey") String apiKey,
@@ -127,8 +126,7 @@ public interface SupabaseApi {
             @Query("id") String questionIdFilter
     );
 
-    // Thêm hàm này vào interface
-    // Lưu ý: Gọi RPC dùng POST tới /rpc/{tên_hàm}
+
     @POST("rpc/get_admin_stats")
     Call<List<AdminStats>> getAdminStats(
             @Header("apikey") String apiKey,
@@ -138,8 +136,10 @@ public interface SupabaseApi {
     // Trong SupabaseApi.java
 
     // API lấy 50 người có điểm cao nhất
-    @GET("leaderboard_view?select=*&order=max_score.desc&limit=50")
+    @GET("global_leaderboard_view?select=*&order=max_score.desc&limit=50")
     Call<List<LeaderboardEntry>> getLeaderboard(
             @Header("apikey") String apiKey
     );
+
+
 }

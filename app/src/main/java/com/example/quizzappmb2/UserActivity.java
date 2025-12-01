@@ -38,7 +38,6 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        // 1. Ánh xạ
         rcvQuiz = findViewById(R.id.rcvQuiz);
         rcvQuiz.setHasFixedSize(true);
         imgAvatar = findViewById(R.id.imgUserAvatar);
@@ -48,7 +47,6 @@ public class UserActivity extends AppCompatActivity {
 
         rcvQuiz.setLayoutManager(new GridLayoutManager(this, 2));
 
-        // 2. Lấy ID và Token từ bộ nhớ máy
         SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         USER_ID = prefs.getString("USER_ID", null);
         TOKEN = prefs.getString("TOKEN", null);
@@ -64,7 +62,6 @@ public class UserActivity extends AppCompatActivity {
 
         getQuizList();
 
-        // Trong UserActivity.java -> onCreate
         ImageView btnHistory = findViewById(R.id.btnHistory);
         btnHistory.setOnClickListener(v -> {
             startActivity(new Intent(UserActivity.this, HistoryActivity.class));

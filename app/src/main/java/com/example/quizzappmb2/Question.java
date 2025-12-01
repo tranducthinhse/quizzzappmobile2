@@ -4,13 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Question {
 
-    // --- SỬA CÁC BIẾN NÀY TỪ 'int' SANG 'Integer' ---
-    // Khi dùng Integer, nếu không gán giá trị, Gson sẽ bỏ qua (gửi NULL) thay vì gửi 0.
+
     @SerializedName("id")
-    private Integer id; // Đã sửa: Integer
+    private Integer id;
 
     @SerializedName("quiz_id")
-    private Integer quizId; // Đã sửa: Integer
+    private Integer quizId;
 
     @SerializedName("content")
     private String content;

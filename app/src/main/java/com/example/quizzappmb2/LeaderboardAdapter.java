@@ -34,20 +34,34 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
         LeaderboardEntry entry = list.get(position);
-
         int rank = position + startRank;
 
         holder.tvRank.setText("#" + rank);
         holder.tvName.setText(entry.fullName);
-        holder.tvScore.setText(entry.maxScore + " Score");
 
-        holder.tvRank.setTextColor(Color.parseColor("#00D2FC"));
+        int finalScore = entry.maxScore != null ? entry.maxScore.intValue() : 0;
+        holder.tvScore.setText(finalScore + " Score");
 
-        if (entry.avatarUrl != null && !entry.avatarUrl.isEmpty()) {
-            Glide.with(context).load(entry.avatarUrl).into(holder.imgAvatar);
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#1F1D2B"));
         } else {
-            holder.imgAvatar.setImageResource(android.R.drawable.sym_def_app_icon);
+            holder.itemView.setBackgroundColor(Color.parseColor("#252836"));
         }
+
+        if (rank == 4) {
+            holder.tvRank.setTextColor(Color.parseColor("#00E676"));
+            holder.tvScore.setTextColor(Color.parseColor("#00E676"));
+        } else {
+            holder.tvRank.setTextColor(Color.parseColor("#9E9EA7"));
+            holder.tvScore.setTextColor(Color.parseColor("#00D2FC"));
+        }
+
+        // 3. Load Avatar
+        // Trong onBindViewHolder
+        if (entry.avatarUrl != null && !entry.avatarUrl.isEmpty()) {
+            Glide.with(context).load(entry.avatarUrl).into(holder.imgAvatar); // <--- Lỗi xảy ra ở đây
+        }
+// ...
     }
 
     @Override

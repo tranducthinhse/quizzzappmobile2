@@ -3,12 +3,18 @@ package com.example.quizzappmb2;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors; // Cần cho lọc list
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,6 +22,11 @@ import retrofit2.Response;
 public class ManageUsersActivity extends AppCompatActivity {
 
     private RecyclerView rcvUsers;
+    private ImageView btnBack;
+    private EditText edtSearch;
+
+    private List<Profile> allUserList = new ArrayList<>();
+    private UserAdapter adapter;
 
     private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5dWV1Ymlud3VlZGRtaXh4cXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0MDMxMjksImV4cCI6MjA3OTk3OTEyOX0.Q1PhMfB57cgDNnfdF_UgOVJDX-Y7Z-YZ6lyW0yV8ZuA";
     private String ADMIN_TOKEN;
@@ -25,7 +36,12 @@ public class ManageUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_users);
 
+        // 1. Ánh xạ
         rcvUsers = findViewById(R.id.rcvUsers);
+        // Lưu ý: Cần đảm bảo các ID này có trong XML
+        btnBack = findViewById(R.id.btnBack);
+        edtSearch = findViewById(R.id.edtSearch);
+
         rcvUsers.setLayoutManager(new LinearLayoutManager(this));
 
         SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
@@ -37,7 +53,47 @@ public class ManageUsersActivity extends AppCompatActivity {
             return;
         }
 
+        // 2. LOGIC NÚT BACK
+        btnBack.setOnClickListener(v -> finish());
+
+        // 3. LOGIC TÌM KIẾM
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterList(s.toString());
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
         loadAllUsers();
+    }
+
+    // --- HÀM LỌC DANH SÁCH USER ---
+    private void filterList(String text) {
+        if (allUserList.isEmpty()) return;
+
+        // Lọc danh sách gốc dựa trên text nhập vào (Android API 24+)
+        List<Profile> filteredList = allUserList.stream()
+                .filter(profile -> (profile.fullName != null && profile.fullName.toLowerCase().contains(text.toLowerCase())) ||
+                        (profile.id != null && profile.id.toLowerCase().contains(text.toLowerCase())))
+                .collect(Collectors.toList());
+
+        // Cập nhật Adapter với list đã lọc
+        adapter = new UserAdapter(ManageUsersActivity.this, filteredList, createActionListener());
+        rcvUsers.setAdapter(adapter);
+    }
+
+    // Hàm này giúp tạo lại các Action Listener sau khi list được lọc
+    private UserAdapter.OnUserActionListener createActionListener() {
+        return new UserAdapter.OnUserActionListener() {
+            @Override public void onBan(Profile user) { toggleBanUser(user); }
+            @Override public void onDelete(Profile user) { confirmDeleteUser(user); }
+            @Override public void onHistory(Profile user) {
+                Intent intent = new Intent(ManageUsersActivity.this, HistoryActivity.class);
+                intent.putExtra("TARGET_USER_ID", user.id);
+                startActivity(intent);
+            }
+        };
     }
 
     private void loadAllUsers() {
@@ -46,32 +102,21 @@ public class ManageUsersActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Profile>> call, Response<List<Profile>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Profile> list = response.body();
+                    allUserList = response.body(); // LƯU DANH SÁCH GỐC
 
-                    UserAdapter adapter = new UserAdapter(ManageUsersActivity.this, list, new UserAdapter.OnUserActionListener() {
-                        @Override
-                        public void onBan(Profile user) {
-                            toggleBanUser(user);
-                        }
-                        @Override
-                        public void onDelete(Profile user) {
-                            confirmDeleteUser(user);
-                        }
-                        @Override
-                        public void onHistory(Profile user) {
-                            // Xem lịch sử của người này
-                            Intent intent = new Intent(ManageUsersActivity.this, HistoryActivity.class);
-                            intent.putExtra("TARGET_USER_ID", user.id);
-                            startActivity(intent);
-                        }
-                    });
+                    if (allUserList.isEmpty()) {
+                        Toast.makeText(ManageUsersActivity.this, "Không có user để quản lý.", Toast.LENGTH_LONG).show();
+                        rcvUsers.setAdapter(null);
+                        return;
+                    }
+
+                    adapter = new UserAdapter(ManageUsersActivity.this, allUserList, createActionListener());
                     rcvUsers.setAdapter(adapter);
                 } else {
                     Toast.makeText(ManageUsersActivity.this, "Lỗi tải dữ liệu! Code: " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
-            @Override
-            public void onFailure(Call<List<Profile>> call, Throwable t) {
+            @Override public void onFailure(Call<List<Profile>> call, Throwable t) {
                 Toast.makeText(ManageUsersActivity.this, "Lỗi mạng!", Toast.LENGTH_SHORT).show();
             }
         });
