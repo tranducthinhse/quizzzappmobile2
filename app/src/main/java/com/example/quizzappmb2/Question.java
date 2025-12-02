@@ -28,6 +28,8 @@ public class Question {
 
     @SerializedName("correct_answer")
     private String correctAnswer;
+    @SerializedName("explanation")
+    private String explanation;
 
     @SerializedName("type")
     private String type;
@@ -65,4 +67,6 @@ public class Question {
     public String getAnswerD() { return answerD; }
     public String getCorrectAnswer() { return correctAnswer; }
     public String getType() { return type; }
+    public String getExplanation() { return explanation; }
+    public void setExplanation(String explanation) { this.explanation = explanation; }
 }

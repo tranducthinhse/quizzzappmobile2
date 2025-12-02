@@ -40,6 +40,8 @@ public class PlayQuizActivity extends BaseActivity implements View.OnClickListen
 
     private MediaPlayer mpCorrect, mpWrong;
 
+    private List<UserAnswer> answersToSave = new ArrayList<>();
+
     private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5dWV1Ymlud3VlZGRtaXh4cXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0MDMxMjksImV4cCI6MjA3OTk3OTEyOX0.Q1PhMfB57cgDNnfdF_UgOVJDX-Y7Z-YZ6lyW0yV8ZuA";
 
     @Override
@@ -170,10 +172,24 @@ public class PlayQuizActivity extends BaseActivity implements View.OnClickListen
     private void handleTimeOut() {
         disableButtons();
         Question q = questionList.get(currentQuestionIndex);
+
+        // 1. Hiện đáp án đúng để người chơi biết
         showCorrectAnswer(q.getCorrectAnswer());
+
+        // 2. Phát âm thanh sai
         playSound(mpWrong);
+
+        // --- 3. THÊM DÒNG NÀY: Ghi nhận vào lịch sử là SAI do Hết giờ ---
+        // Ta dùng chữ "TIMEOUT" để đánh dấu
+        answersToSave.add(new UserAnswer(q.getId(), "TIMEOUT", false));
+        // --------------------------------------------------------------
+
+        // 4. Chuyển câu tiếp theo
         new Handler().postDelayed(() -> {
-            if (!isFinishing()) { currentQuestionIndex++; loadQuestion(currentQuestionIndex); }
+            if (!isFinishing()) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
         }, 1500);
     }
 
@@ -193,7 +209,9 @@ public class PlayQuizActivity extends BaseActivity implements View.OnClickListen
 
     private void checkAnswer(String userChoice, Button btn) {
         Question q = questionList.get(currentQuestionIndex);
-        if (userChoice.equalsIgnoreCase(q.getCorrectAnswer())) {
+        boolean isCorrect = userChoice.equalsIgnoreCase(q.getCorrectAnswer());
+
+        if (isCorrect) {
             score++;
             btn.setBackgroundColor(Color.parseColor("#00E676"));
             playSound(mpCorrect);
@@ -202,8 +220,16 @@ public class PlayQuizActivity extends BaseActivity implements View.OnClickListen
             showCorrectAnswer(q.getCorrectAnswer());
             playSound(mpWrong);
         }
+
+        // --- QUAN TRỌNG: THÊM ĐOẠN NÀY ĐỂ LƯU KHI BẤM NÚT ---
+        answersToSave.add(new UserAnswer(q.getId(), userChoice, isCorrect));
+        // ----------------------------------------------------
+
         new Handler().postDelayed(() -> {
-            if (!isFinishing()) { currentQuestionIndex++; loadQuestion(currentQuestionIndex); }
+            if (!isFinishing()) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
         }, 1000);
     }
 
@@ -235,6 +261,7 @@ public class PlayQuizActivity extends BaseActivity implements View.OnClickListen
     private void finishQuiz() {
         if(timerPerQuestion!=null) timerPerQuestion.cancel();
         if(timerTotal!=null) timerTotal.cancel();
+        GlobalAnswerCache.setAnswers(answersToSave);
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("SCORE", score);
         intent.putExtra("TOTAL", questionList.size());

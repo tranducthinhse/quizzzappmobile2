@@ -8,6 +8,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -81,10 +82,18 @@ public interface SupabaseApi {
     );
 
     @POST("results")
-    Call<Void> saveResult(
+    @Headers({"Prefer: return=representation"}) // <--- THÊM HEADER NÀY
+    Call<List<Result>> saveResult( // <--- SỬA KIỂU TRẢ VỀ THÀNH List<Result>
+                                   @Header("apikey") String apiKey,
+                                   @Header("Authorization") String token,
+                                   @Body Result result
+    );
+
+    @POST("user_answers")
+    Call<Void> saveUserAnswers(
             @Header("apikey") String apiKey,
             @Header("Authorization") String token,
-            @Body Result result
+            @Body List<UserAnswer> userAnswers // Gửi nguyên List JSON lên
     );
 
     // Lấy lịch sử (Lọc theo user_id)
@@ -102,7 +111,7 @@ public interface SupabaseApi {
     Call<Void> deleteUser(
             @Header("apikey") String apiKey,
             @Header("Authorization") String token,
-            @Query("id") String userIdFilter // Cú pháp: id=eq.XXXX
+            @Query("id") String userIdFilter
     );
     @POST("quizzes")
     Call<Void> createQuiz(
@@ -115,7 +124,7 @@ public interface SupabaseApi {
     Call<Void> updateQuestion(
             @Header("apikey") String apiKey,
             @Header("Authorization") String token,
-            @Query("id") String questionIdFilter, // id=eq.123
+            @Query("id") String questionIdFilter,
             @Body Question question
     );
 
@@ -133,13 +142,22 @@ public interface SupabaseApi {
             @Header("Authorization") String token
     );
 
-    // Trong SupabaseApi.java
 
     // API lấy 50 người có điểm cao nhất
     @GET("global_leaderboard_view?select=*&order=max_score.desc&limit=50")
     Call<List<LeaderboardEntry>> getLeaderboard(
             @Header("apikey") String apiKey
     );
+
+    // Trong SupabaseApi.java
+    @GET("review_detail_view?select=*")
+    Call<List<ReviewDetail>> getReviewDetails(
+            @Header("apikey") String apiKey,
+            @Header("Authorization") String token,
+            @Query("result_id") String resultIdFilter // eq.RESULT_ID
+    );
+
+
 
 
 }

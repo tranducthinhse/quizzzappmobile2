@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_card_dark"
+    android:layout_marginBottom="20dp"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvReviewQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. Nội dung câu hỏi gốc là gì?"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:id="@+id/tvUserStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TRẢ LỜI: BỊ SAI"
+        android:textSize="14sp"
+        android:textColor="#FF3D71"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tvOptionA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A. Option A (Selected)"
+        android:textColor="#FFFFFF"
+        android:padding="8dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tvOptionB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="B. Option B"
+        android:textColor="#FFFFFF"
+        android:padding="8dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tvOptionC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A. Option C "
+        android:textColor="#FFFFFF"
+        android:padding="8dp"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tvOptionD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="B. Option D"
+        android:textColor="#FFFFFF"
+        android:padding="8dp"
+        android:layout_marginBottom="4dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutExplanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#33FFB84C"
+        android:padding="12dp"
+        android:layout_marginTop="12dp"
+        android:visibility="visible">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_dialog_info"
+                app:tint="#FFB84C"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:text="GIẢI THÍCH:"
+                android:textColor="#FFB84C"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvExplanation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nội dung giải thích..."
+            android:textColor="#E0E0E0"
+            android:textSize="13sp"
+            android:lineSpacingExtra="4dp"/>
+    </LinearLayout>
+
+</LinearLayout>

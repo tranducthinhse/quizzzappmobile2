@@ -12,7 +12,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HistoryActivity extends AppCompatActivity { // Giữ nguyên AppCompatActivity nếu BaseActivity bị lỗi
+// THAY ĐỔI 1: KHAI BÁO IMPLEMENT INTERFACE CLICK
+public class HistoryActivity extends AppCompatActivity implements HistoryAdapter.OnItemClickListener {
 
     private RecyclerView rcvHistory;
     private static final String API_KEY = "COPY_KEY_CUA_BAN";
@@ -27,6 +28,7 @@ public class HistoryActivity extends AppCompatActivity { // Giữ nguyên AppCom
 
         String targetUserId;
 
+        // Xử lý logic lấy ID (Admin xem người khác hay User tự xem)
         if (getIntent().hasExtra("TARGET_USER_ID")) {
             targetUserId = getIntent().getStringExtra("TARGET_USER_ID");
             Toast.makeText(this, "Xem lịch sử người dùng khác...", Toast.LENGTH_SHORT).show();
@@ -34,7 +36,6 @@ public class HistoryActivity extends AppCompatActivity { // Giữ nguyên AppCom
             SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
             targetUserId = prefs.getString("USER_ID", null);
         }
-        // -------------------------------------------------------------
 
         if (targetUserId != null) {
             loadHistory(targetUserId);
@@ -46,7 +47,6 @@ public class HistoryActivity extends AppCompatActivity { // Giữ nguyên AppCom
     private void loadHistory(String userId) {
         SupabaseApi api = SupabaseClient.getClient().create(SupabaseApi.class);
 
-        // Lọc theo user_id
         api.getHistory(API_KEY, "eq." + userId).enqueue(new Callback<List<HistoryItem>>() {
             @Override
             public void onResponse(Call<List<HistoryItem>> call, Response<List<HistoryItem>> response) {
@@ -58,7 +58,8 @@ public class HistoryActivity extends AppCompatActivity { // Giữ nguyên AppCom
                         return;
                     }
 
-                    HistoryAdapter adapter = new HistoryAdapter(list);
+                    // THAY ĐỔI 2: TRUYỀN 'this' (chính là Activity này) làm Listener
+                    HistoryAdapter adapter = new HistoryAdapter(response.body(), HistoryActivity.this, HistoryActivity.this);
                     rcvHistory.setAdapter(adapter);
                 } else {
                     Toast.makeText(HistoryActivity.this, "Lỗi tải lịch sử: Code " + response.code(), Toast.LENGTH_LONG).show();
@@ -70,5 +71,14 @@ public class HistoryActivity extends AppCompatActivity { // Giữ nguyên AppCom
                 Toast.makeText(HistoryActivity.this, "Lỗi mạng", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // --- THAY ĐỔI 3: ĐẶT HÀM onClick VÀO ĐÚNG VỊ TRÍ CLASS ---
+    @Override
+    public void onItemClick(int resultId) {
+        // Mở màn hình ReviewActivity và truyền ID phiên thi qua
+        Intent intent = new Intent(HistoryActivity.this, ReviewActivity.class);
+        intent.putExtra("RESULT_ID", resultId);
+        startActivity(intent);
     }
 }

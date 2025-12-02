@@ -43,7 +43,6 @@ public class AddQuestionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_question);
 
-        // 1. Ánh xạ
         edtContent = findViewById(R.id.edtContent);
         edtA = findViewById(R.id.edtA);
         edtB = findViewById(R.id.edtB);

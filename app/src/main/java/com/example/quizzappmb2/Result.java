@@ -2,6 +2,8 @@ package com.example.quizzappmb2;
 import com.google.gson.annotations.SerializedName;
 
 public class Result {
+
+    @SerializedName("id") public Integer id;
     @SerializedName("user_id") private String userId;
     @SerializedName("quiz_id") private int quizId;
     @SerializedName("score") private int score;

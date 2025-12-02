@@ -263,7 +263,13 @@ public class ProfileActivity extends AppCompatActivity {
                     if ("Nam".equals(p.gender)) rbMale.setChecked(true);
                     else if ("Nữ".equals(p.gender)) rbFemale.setChecked(true);
                     if (p.avatarUrl != null && !p.avatarUrl.isEmpty()) {
-                        Glide.with(ProfileActivity.this).load(p.avatarUrl).into(imgAvatar);
+                        Glide.with(ProfileActivity.this)
+                                .load(p.avatarUrl)
+                                .placeholder(android.R.drawable.sym_def_app_icon)
+                                .error(android.R.drawable.stat_notify_error)
+                                .into(imgAvatar);
+                    } else {
+                        imgAvatar.setImageResource(android.R.drawable.sym_def_app_icon);
                     }
                 }
             }

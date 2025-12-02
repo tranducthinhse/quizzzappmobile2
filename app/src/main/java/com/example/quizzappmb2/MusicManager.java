@@ -10,7 +10,7 @@ public class MusicManager {
     private static boolean isInitialized = false;
 
 
-    private static void initialize(Context context) {
+    static void initialize(Context context) {
         if (!isInitialized) {
             try {
                 mp = MediaPlayer.create(context.getApplicationContext(), R.raw.background);
