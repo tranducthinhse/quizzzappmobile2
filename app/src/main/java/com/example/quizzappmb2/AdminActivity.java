@@ -20,6 +20,7 @@ public class AdminActivity extends AppCompatActivity {
 
     private CardView btnManageUsers, btnAddQuiz, btnAddQuestion;
     private Button btnLogout;
+    private CardView btnImportWord;
 
     private static final String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5dWV1Ymlud3VlZGRtaXh4cXlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0MDMxMjksImV4cCI6MjA3OTk3OTEyOX0.Q1PhMfB57cgDNnfdF_UgOVJDX-Y7Z-YZ6lyW0yV8ZuA";
 
@@ -32,6 +33,7 @@ public class AdminActivity extends AppCompatActivity {
         btnAddQuiz = findViewById(R.id.cardAddQuiz);
         btnAddQuestion = findViewById(R.id.cardAddQuestion);
         btnLogout = findViewById(R.id.btnLogout);
+        btnImportWord = findViewById(R.id.cardImportWord);
 
         tvTotalUsers = findViewById(R.id.tvTotalUsers);
         tvTotalQuizzes = findViewById(R.id.tvTotalQuizzes);
@@ -51,6 +53,10 @@ public class AdminActivity extends AppCompatActivity {
             getSharedPreferences("AppPrefs", MODE_PRIVATE).edit().clear().apply();
             startActivity(new Intent(AdminActivity.this, LoginActivity.class));
             finish();
+        });
+        btnImportWord.setOnClickListener(v -> {
+            // Chuyển sang màn hình Import
+            startActivity(new Intent(AdminActivity.this, ImportQuizActivity.class));
         });
 
         loadAdminStatistics();
